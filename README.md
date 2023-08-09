@@ -36,13 +36,6 @@ client = DifyClient::Client.new(api_key)
 
 3 Use the available methods to interact with the Dify.ai API. Here are the methods provided by the DifyClient::Client class:
 
-### Update API Key
-
-```ruby
-client.update_api_key('NEW_API_KEY')
-```
-Updates the API key used by the client.
-
 ### Message Feedback
 
 ```ruby
