@@ -1,3 +1,9 @@
+Metrics/MethodLength:
+  Max: 25
+
+Style/Documentation:
+  Enabled: false
+
 Style/StringLiterals:
   Enabled: true
   EnforcedStyle: double_quotes
