@@ -3,9 +3,9 @@
 require_relative "client/version"
 
 class DifyClient
-  def initialize(api_key)
+  def initialize(api_key, base_url = "https://api.dify.ai/v1")
     @api_key = api_key
-    @base_url = "https://api.dify.ai/v1"
+    @base_url = base_url
   end
 
   def message_feedback(message_id, rating, user)
