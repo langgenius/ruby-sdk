@@ -21,22 +21,22 @@ class DifyClientTest < Minitest::Test
     user = 'USER_ID'
     expected_response = {}
 
-    stub_request(:get, "https://api.dify.ai/v1/parameters").
-    with(
-      body: {"user"=>"USER_ID"},
-      headers: {
-      'Accept'=>'*/*',
-      'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
-      'Authorization'=>'Bearer YOUR_API_KEY',
-      'Content-Type'=>'application/x-www-form-urlencoded',
-      'Responsetype'=>'json',
-      'User-Agent'=>'Ruby'
-      }).
-    to_return(status: 200, body: expected_response.to_json, headers: {})
+    stub_request(:get, "https://api.dify.ai/v1/parameters")
+      .with(
+        body: { "user" => "USER_ID" },
+        headers: {
+          'Accept' => '*/*',
+          'Accept-Encoding' => 'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
+          'Authorization' => 'Bearer YOUR_API_KEY',
+          'Content-Type' => 'application/x-www-form-urlencoded',
+          'Responsetype' => 'json',
+          'User-Agent' => 'Ruby'
+        }
+      )
+      .to_return(status: 200, body: expected_response.to_json, headers: {})
 
     response = @client.get_application_parameters(user)
 
     assert_equal expected_response, response
   end
-
 end
