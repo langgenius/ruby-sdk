@@ -21,9 +21,13 @@ class DifyClient
     _send_request("GET", "/parameters", nil, params)
   end
 
+  def update_api_key(new_key)
+    @api_key = new_key
+  end
+
   private
 
-  def _send_request(method, endpoint, data = nil, params = nil, stream = false)
+  def _send_request(method, endpoint, data = nil, params = nil, _stream: false)
     uri = URI.parse("#{@base_url}#{endpoint}")
 
     http = Net::HTTP.new(uri.host, uri.port)
