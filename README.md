@@ -25,13 +25,14 @@ To use the DifyClient gem, follow these steps:
 1 Require the gem:
 
 ```ruby
-require 'dify_client'
+require 'dify/client'
 ```
+
 2 Create a new client instance:
 
 ```ruby
 api_key = 'YOUR_API_KEY'
-client = DifyClient::Client.new(api_key)
+client = ChatClient.new(api_key)
 ```
 
 3 Use the available methods to interact with the Dify.ai API. Here are the methods provided by the DifyClient::Client class:

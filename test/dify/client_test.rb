@@ -1,16 +1,18 @@
-require 'test_helper'
-require 'webmock/minitest'
-require 'json'
+# frozen_string_literal: true
+
+require "test_helper"
+require "webmock/minitest"
+require "json"
 require "dify/client"
 
 class DifyClientTest < Minitest::Test
   def setup
-    @api_key = 'YOUR_API_KEY'
-    @client = DifyClient::Client.new(@api_key)
+    @api_key = "YOUR_API_KEY"
+    @client = DifyClient.new(@api_key)
   end
 
   def test_update_api_key
-    new_api_key = 'NEW_API_KEY'
+    new_api_key = "NEW_API_KEY"
 
     @client.update_api_key(new_api_key)
 
@@ -18,25 +20,24 @@ class DifyClientTest < Minitest::Test
   end
 
   def test_get_application_parameters
-    user = 'USER_ID'
-    expected_response = {}
+    user = "USER_ID"
+    response_body = { "parameters" => [{ "name" => "test", "value" => "test_value" }] }
 
-    stub_request(:get, "https://api.dify.ai/v1/parameters").
-    with(
-      body: {"user"=>"USER_ID"},
-      headers: {
-      'Accept'=>'*/*',
-      'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
-      'Authorization'=>'Bearer YOUR_API_KEY',
-      'Content-Type'=>'application/x-www-form-urlencoded',
-      'Responsetype'=>'json',
-      'User-Agent'=>'Ruby'
-      }).
-    to_return(status: 200, body: expected_response.to_json, headers: {})
+    stub_request(:get, "https://api.dify.ai/v1/parameters?user=USER_ID")
+      .with(
+        headers: {
+          "Accept" => "*/*",
+          "Accept-Encoding" => "gzip;q=1.0,deflate;q=0.6,identity;q=0.3",
+          "Authorization" => "Bearer YOUR_API_KEY",
+          "Content-Type" => "application/json",
+          "User-Agent" => "Ruby"
+        }
+      )
+      .to_return(status: 200, body: response_body.to_json, headers: {})
 
     response = @client.get_application_parameters(user)
 
-    assert_equal expected_response, response
+    assert_equal 200, response.code.to_i
+    assert_equal response_body, JSON.parse(response.body)
   end
-
 end
