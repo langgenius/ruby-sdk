@@ -1,3 +1,7 @@
+## WARNING
+
+Ruby programmer should using `ruby_llm`, which currently support all large LLM provider, also [including Dify support](https://github.com/crmne/ruby_llm/pull/168).
+
 # DifyClient
 
 Welcome to the DifyClient gem! This gem provides a Ruby client for interacting with the Dify.ai API. It allows you to perform various actions such as sending requests, providing feedback, creating completion messages, managing conversations, and more.
