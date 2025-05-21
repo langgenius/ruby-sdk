@@ -13,12 +13,12 @@ class DifyClient
       rating: rating,
       user: user
     }
-    _send_request("POST", "/messages/#{message_id}/feedbacks", data)
+    _send_request("POST", "/messages/#{message_id}/feedbacks", data, stream: false)
   end
 
   def get_application_parameters(user)
     params = { user: user }
-    _send_request("GET", "/parameters", nil, params)
+    _send_request("GET", "/parameters", nil, params, stream: false)
   end
 
   def update_api_key(new_key)
@@ -27,7 +27,7 @@ class DifyClient
 
   private
 
-  def _send_request(method, endpoint, data = nil, params = nil, _stream: false)
+  def _send_request(method, endpoint, data = nil, params = nil, stream: false)
     uri = URI.parse("#{@base_url}#{endpoint}")
 
     http = Net::HTTP.new(uri.host, uri.port)
@@ -58,7 +58,7 @@ class CompletionClient < DifyClient
       response_mode: response_mode,
       user: user
     }
-    _send_request("POST", "/completion-messages", data, nil, response_mode == "streaming")
+    _send_request("POST", "/completion-messages", data, nil, stream: response_mode == "streaming")
   end
 end
 
@@ -72,7 +72,7 @@ class ChatClient < DifyClient
     }
     data[:conversation_id] = conversation_id if conversation_id
 
-    _send_request("POST", "/chat-messages", data, nil, response_mode == "streaming")
+    _send_request("POST", "/chat-messages", data, nil, stream: response_mode == "streaming")
   end
 
   def get_conversation_messages(user, conversation_id = nil, first_id = nil, limit = nil)
@@ -81,16 +81,16 @@ class ChatClient < DifyClient
     params[:first_id] = first_id if first_id
     params[:limit] = limit if limit
 
-    _send_request("GET", "/messages", nil, params)
+    _send_request("GET", "/messages", nil, params, stream: false)
   end
 
   def get_conversations(user, last_id = nil, limit = nil, pinned = nil)
     params = { user: user, last_id: last_id, limit: limit, pinned: pinned }
-    _send_request("GET", "/conversations", nil, params)
+    _send_request("GET", "/conversations", nil, params, stream: false)
   end
 
   def rename_conversation(conversation_id, name, user)
     data = { name: name, user: user }
-    _send_request("POST", "/conversations/#{conversation_id}/name", data)
+    _send_request("POST", "/conversations/#{conversation_id}/name", data, stream: false)
   end
 end
