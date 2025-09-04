@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 require_relative "client/version"
+require "net/https"
+require "json"
 
 module Dify
   module Client

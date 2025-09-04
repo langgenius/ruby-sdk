@@ -12,5 +12,3 @@ gem "minitest", "~> 5.0"
 gem "rubocop", "~> 1.72"
 
 gem "webmock"
-
-gem "net/https"
