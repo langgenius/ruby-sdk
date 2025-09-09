@@ -8,7 +8,7 @@ require "dify/client"
 class DifyClientTest < Minitest::Test
   def setup
     @api_key = "YOUR_API_KEY"
-    @client = DifyClient.new(@api_key)
+    @client = Dify::Client::DifyClient.new(@api_key)
   end
 
   def test_update_api_key
