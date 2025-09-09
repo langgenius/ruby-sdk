@@ -51,7 +51,7 @@ module Dify
 
       def upload_file(file_path, user, filename="localfile", mine_type="text/plain")
         fileio = File.new(file_path)
-        upload(fileio, user, filename, user, mine_type)
+        upload(fileio, user, filename, mine_type)
       end
 
       private

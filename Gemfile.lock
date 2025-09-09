@@ -1,7 +1,8 @@
 PATH
   remote: .
   specs:
-    dify_client (0.1.1)
+    dify_client (0.1.2)
+      multipart-post (~> 2.3)
 
 GEM
   remote: https://rubygems.org/
