@@ -56,7 +56,7 @@ module Dify
 
       private
 
-      def _send_request(method, endpoint, data = nil, params = nil, _stream = false)
+      def _send_request(method, endpoint, data = nil, params = nil, _stream: false)
         uri = URI.parse("#{@base_url}#{endpoint}")
 
         http = Net::HTTP.new(uri.host, uri.port)
@@ -87,7 +87,7 @@ module Dify
           response_mode: response_mode,
           user: user
         }
-        _send_request("POST", "/completion-messages", data, nil, response_mode == "streaming")
+        _send_request("POST", "/completion-messages", data, nil, _stream: response_mode == "streaming")
       end
     end
 
@@ -101,7 +101,7 @@ module Dify
 
         data[:trace_id] = trace_id if trace_id
 
-        _send_request("POST", "/workflows/run", data, nil, response_mode == "streaming")
+        _send_request("POST", "/workflows/run", data, nil, _stream: response_mode == "streaming")
       end
 
       def get_workflow(workflow_id)
@@ -119,7 +119,7 @@ module Dify
         }
         data[:conversation_id] = conversation_id if conversation_id
 
-        _send_request("POST", "/chat-messages", data, nil, response_mode == "streaming")
+        _send_request("POST", "/chat-messages", data, nil, _stream: response_mode == "streaming")
       end
 
       def get_conversation_messages(user, conversation_id = nil, first_id = nil, limit = nil)
