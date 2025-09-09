@@ -2,10 +2,10 @@
 
 require_relative "client/version"
 require "net/https"
-require 'net/http/post/multipart'
+require "net/http/post/multipart"
 
 require "json"
-require 'uri'
+require "uri"
 
 module Dify
   module Client
@@ -32,16 +32,16 @@ module Dify
         @api_key = new_key
       end
 
-      def upload(io_obj, user, filename="localfile", mine_type="text/plain")
+      def upload(io_obj, user, filename = "localfile", _mine_type = "text/plain")
         uri = URI.parse("#{@base_url}/files/upload")
 
         request = Net::HTTP::Post::Multipart.new(uri.path, {
-          'file' => UploadIO.new(io_obj, 'text/plain', filename),
-          'user' => user
-        })
+                                                   "file" => UploadIO.new(io_obj, "text/plain", filename),
+                                                   "user" => user
+                                                 })
 
-        request['Authorization'] = "Bearer #{@api_key}"
-        request['User-Agent'] = 'Ruby-Dify-Uploader'
+        request["Authorization"] = "Bearer #{@api_key}"
+        request["User-Agent"] = "Ruby-Dify-Uploader"
 
         http = Net::HTTP.new(uri.host, uri.port)
         http.use_ssl = true
@@ -49,7 +49,7 @@ module Dify
         http.request(request)
       end
 
-      def upload_file(file_path, user, filename="localfile", mine_type="text/plain")
+      def upload_file(file_path, user, filename = "localfile", mine_type = "text/plain")
         fileio = File.new(file_path)
         upload(fileio, user, filename, mine_type)
       end
