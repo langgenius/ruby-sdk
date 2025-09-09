@@ -2,7 +2,10 @@
 
 require_relative "client/version"
 require "net/https"
+require 'net/http/post/multipart'
+
 require "json"
+require 'uri'
 
 module Dify
   module Client
@@ -27,6 +30,28 @@ module Dify
 
       def update_api_key(new_key)
         @api_key = new_key
+      end
+
+      def upload(io_obj, user, filename="localfile", mine_type="text/plain")
+        uri = URI.parse("#{@base_url}/files/upload")
+
+        request = Net::HTTP::Post::Multipart.new(uri.path, {
+          'file' => UploadIO.new(io_obj, 'text/plain', filename),
+          'user' => user
+        })
+
+        request['Authorization'] = "Bearer #{@api_key}"
+        request['User-Agent'] = 'Ruby-Dify-Uploader'
+
+        http = Net::HTTP.new(uri.host, uri.port)
+        http.use_ssl = true
+
+        http.request(request)
+      end
+
+      def upload_file(file_path, user, filename="localfile", mine_type="text/plain")
+        fileio = File.new(file_path)
+        upload(fileio, user, filename, mine_type)
       end
 
       private
@@ -63,6 +88,24 @@ module Dify
           user: user
         }
         _send_request("POST", "/completion-messages", data, nil, response_mode == "streaming")
+      end
+    end
+
+    class WorkflowClient < DifyClient
+      def run_workflow(inputs, user, response_mode = "blocking", trace_id = nil)
+        data = {
+          inputs: inputs,
+          user: user,
+          response_mode: response_mode
+        }
+
+        data[:trace_id] = trace_id if trace_id
+
+        _send_request("POST", "/workflows/run", data, nil, response_mode == "streaming")
+      end
+
+      def get_workflow(workflow_id)
+        _send_request("GET", "/workflows/run/#{workflow_id}", nil, nil)
       end
     end
 
