@@ -18,6 +18,7 @@ GEM
     language_server-protocol (3.17.0.4)
     lint_roller (1.1.0)
     minitest (5.25.4)
+    multipart-post (2.4.1)
     parallel (1.26.3)
     parser (3.3.7.1)
       ast (~> 2.4.1)
@@ -57,6 +58,7 @@ PLATFORMS
 DEPENDENCIES
   dify_client!
   minitest (~> 5.0)
+  multipart-post
   rake (~> 13.0)
   rubocop (~> 1.72)
   webmock
